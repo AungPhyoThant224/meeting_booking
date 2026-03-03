@@ -1,6 +1,7 @@
 import { 
-  Heading, Spinner, Table, VStack, Box, Text, HStack, Center 
+  Heading, Spinner, Table, VStack, Box, IconButton, Text, HStack, Center 
 } from "@chakra-ui/react";
+import { Trash2 } from "lucide-react";
 import { 
   PaginationItems, 
   PaginationNextTrigger, 
@@ -9,12 +10,17 @@ import {
 } from "@/components/ui/pagination"; 
 import CreateBookingModal from "../components/features/CreateBookingModal";
 import { useState } from "react";
+import { useAuthStore } from "../store/useAuthStore";
+import { canDeleteBooking } from "../utils/permissions";
 import useBookings from "../hooks/bookings/useBookings";
+import useDeleteBooking from "../hooks/bookings/useDeleteBooking";
 
 const BookingsPage = () => {
+  const { user } = useAuthStore();
   const [page, setPage] = useState(1);
   
   const { data, isLoading, error } = useBookings(page);
+  const { mutate: deleteBooking, isPending: isDeleting } = useDeleteBooking();
     
   if (isLoading) return <Center h="200px"><Spinner /></Center>;
   
@@ -34,9 +40,10 @@ const BookingsPage = () => {
         <Table.Root variant="line">
           <Table.Header>
             <Table.Row>
-              <Table.ColumnHeader>User</Table.ColumnHeader>
-              <Table.ColumnHeader>Start Time</Table.ColumnHeader>
-              <Table.ColumnHeader>End Time</Table.ColumnHeader>
+              <Table.ColumnHeader fontWeight={"bold"} fontSize={"md"}>User</Table.ColumnHeader>
+              <Table.ColumnHeader fontWeight={"bold"} fontSize={"md"}>Start Time</Table.ColumnHeader>
+              <Table.ColumnHeader fontWeight={"bold"} fontSize={"md"}>End Time</Table.ColumnHeader>
+              <Table.ColumnHeader textAlign="right" fontWeight={"bold"} fontSize={"md"}>Actions</Table.ColumnHeader>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -46,6 +53,23 @@ const BookingsPage = () => {
                   <Table.Cell fontWeight="medium">{booking.user?.name || "N/A"}</Table.Cell>
                   <Table.Cell>{new Date(booking.startTime).toLocaleString()}</Table.Cell>
                   <Table.Cell>{new Date(booking.endTime).toLocaleString()}</Table.Cell>
+                  <Table.Cell textAlign="right">
+                    {canDeleteBooking(user, booking) && (
+                      <IconButton
+                        aria-label="Delete booking"
+                        variant="ghost"
+                        colorPalette="red"
+                        loading={isDeleting}
+                        onClick={() => {
+                          if (confirm("Are you sure you want to delete this booking?")) {
+                            deleteBooking(booking.id);
+                          }
+                        }}
+                      >
+                        <Trash2 size={16} />
+                      </IconButton>
+                    )}
+                  </Table.Cell>
                 </Table.Row>
               ))
             ) : (

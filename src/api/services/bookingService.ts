@@ -14,3 +14,5 @@ export const createBookingService = new APIClient<
   Response<Booking>,
   CreateBookingRequest
 >("/bookings");
+
+export const deleteBookingService = new APIClient<Response<any>>("/bookings");
