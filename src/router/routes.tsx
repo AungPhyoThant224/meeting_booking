@@ -1,8 +1,8 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import MainLayout from "../components/layout/MainLayout";
 import ProtectedRoute from "./ProtectedRoute";
+import LoginPage from "../pages/LoginPage";
 
-const LoginPage = () => <div>Login</div>;
 const Bookings = () => <div>Bookings</div>;
 const Dashboard = () => <div>Dashboard</div>;
 const Users = () => <div>User Management</div>;
