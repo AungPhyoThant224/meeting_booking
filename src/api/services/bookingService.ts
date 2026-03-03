@@ -1,5 +1,16 @@
 import type Response from "@/entities/Response";
-import { type BookingResponseData } from "@/entities/Booking";
+import {
+  type Booking,
+  type BookingResponseData,
+  type CreateBookingRequest,
+} from "@/entities/Booking";
 import APIClient from "@/api/apiClient";
 
-export default new APIClient<Response<BookingResponseData>>("/bookings");
+export const bookingListService = new APIClient<Response<BookingResponseData>>(
+  "/bookings",
+);
+
+export const createBookingService = new APIClient<
+  Response<Booking>,
+  CreateBookingRequest
+>("/bookings");

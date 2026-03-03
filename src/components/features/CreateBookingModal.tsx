@@ -13,8 +13,11 @@ const CreateBookingModal = () => {
   const { mutate, isPending } = useCreateBooking();
   const { register, handleSubmit, reset } = useForm();
 
-  const onSubmit = (data: any) => {
-    mutate(data, {
+  const onSubmit = (values: any) => {
+    const start = new Date(`${values.date}T${values.startTime}`).toISOString();
+    const end = new Date(`${values.date}T${values.endTime}`).toISOString();
+
+    mutate({ startTime: start, endTime: end }, {
       onSuccess: () => {
         reset();
         setOpen(false);
@@ -30,24 +33,28 @@ const CreateBookingModal = () => {
       <DialogContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
-            <DialogTitle>Book a Room</DialogTitle>
+            <DialogTitle>Create New Booking</DialogTitle>
           </DialogHeader>
           <DialogBody>
             <Stack gap="4">
-              <Field label="Date">
+              <Field label="Booking Date">
                 <Input type="date" {...register("date", { required: true })} />
               </Field>
-              <Field label="Start Time">
-                <Input type="time" {...register("startTime", { required: true })} />
-              </Field>
-              <Field label="End Time">
-                <Input type="time" {...register("endTime", { required: true })} />
-              </Field>
+              <Stack direction="row" gap="4">
+                <Field label="Start Time">
+                  <Input type="time" {...register("startTime", { required: true })} />
+                </Field>
+                <Field label="End Time">
+                  <Input type="time" {...register("endTime", { required: true })} />
+                </Field>
+              </Stack>
             </Stack>
           </DialogBody>
           <DialogFooter>
             <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
-            <Button type="submit" loading={isPending}>Confirm</Button>
+            <Button type="submit" loading={isPending} colorPalette="teal">
+              Confirm Booking
+            </Button>
           </DialogFooter>
           <DialogCloseTrigger />
         </form>

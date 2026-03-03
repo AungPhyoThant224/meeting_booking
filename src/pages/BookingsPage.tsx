@@ -7,6 +7,7 @@ import {
   PaginationPrevTrigger, 
   PaginationRoot 
 } from "@/components/ui/pagination"; 
+import CreateBookingModal from "../components/features/CreateBookingModal";
 import { useState } from "react";
 import useBookings from "../hooks/bookings/useBookings";
 
@@ -24,7 +25,10 @@ const BookingsPage = () => {
 
   return (
     <VStack align="stretch" gap="6" p="4">
-      <Heading size="lg">Bookings</Heading>
+      <HStack justify="space-between">
+        <Heading size="lg">Meeting Room Bookings</Heading>
+        <CreateBookingModal />
+      </HStack>
 
       <Box bg="white" boxShadow="sm" borderRadius="md" border="1px solid" borderColor="gray.200">
         <Table.Root variant="line">

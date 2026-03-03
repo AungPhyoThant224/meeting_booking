@@ -9,6 +9,11 @@ export interface Booking {
   user?: User;
 }
 
+export interface CreateBookingRequest {
+  startTime: string;
+  endTime: string;
+}
+
 export interface BookingResponseData {
   bookings: Booking[];
   meta: {
