@@ -3,9 +3,9 @@ import MainLayout from "../components/layout/MainLayout";
 import ProtectedRoute from "./ProtectedRoute";
 import LoginPage from "../pages/LoginPage";
 import BookingsPage from "../pages/BookingsPage";
+import Users from "../pages/UsersPage";
 
 const Dashboard = () => <div>Dashboard</div>;
-const Users = () => <div>User Management</div>;
 
 const router = createBrowserRouter([
   {
