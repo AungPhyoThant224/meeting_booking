@@ -42,6 +42,14 @@ class APIClient<TResponse, TRequest = TResponse> {
       .then((res) => res.data);
   };
 
+  getByRange = (startDate: string, endDate: string) => {
+    return axiosInstance
+      .get<TResponse>(this.endPoint, { 
+        params: { startDate, endDate } 
+      })
+      .then((res) => res.data);
+  };
+
   get = (id: number | string) =>
     axiosInstance
       .get<TResponse>(`${this.endPoint}/${id}`)

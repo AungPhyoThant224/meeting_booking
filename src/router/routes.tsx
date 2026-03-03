@@ -4,8 +4,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import LoginPage from "../pages/LoginPage";
 import BookingsPage from "../pages/BookingsPage";
 import Users from "../pages/UsersPage";
-
-const Dashboard = () => <div>Dashboard</div>;
+import Dashboard from "../pages/DashboardPage";
 
 const router = createBrowserRouter([
   {
