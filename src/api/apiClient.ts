@@ -35,10 +35,12 @@ class APIClient<TResponse, TRequest = TResponse> {
     this.endPoint = endPoint;
   }
 
-  getAll = (params?: any) =>
-    axiosInstance
-      .get<TResponse>(this.endPoint, { params })
+  getAll = (page?: number | string) => {
+    const config = page ? { params: { page } } : {};
+    return axiosInstance
+      .get<TResponse>(this.endPoint, config)
       .then((res) => res.data);
+  };
 
   get = (id: number | string) =>
     axiosInstance
