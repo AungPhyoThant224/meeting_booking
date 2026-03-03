@@ -1,25 +1,16 @@
-import { Box, Button, Heading, VStack, ClientOnly, Skeleton } from '@chakra-ui/react'
-import { useColorMode } from "@/components/ui/color-mode"
-import { Sun, Moon } from 'lucide-react'
+import { Box, Text, Button, VStack } from '@chakra-ui/react'
+import { useAuthStore } from './store/useAuthStore'
 
 function App() {
-  const { colorMode, toggleColorMode } = useColorMode()
-
+  const { user, logout } = useAuthStore();
+  console.log("Current User:", user?.name); // Debugging line to check user state
   return (
     <Box p="8">
       <VStack gap="4">
-        <Heading>Meeting Room Booking</Heading>
-        
-        <ClientOnly fallback={<Skeleton h="10" w="40" />}>
-          <Button 
-            onClick={toggleColorMode}
-            variant="solid"
-            colorPalette="teal"
-          >
-            {colorMode === 'light' ? <Moon size={18} /> : <Sun size={18} />}
-            Toggle {colorMode === 'light' ? 'Dark' : 'Light'} Mode
-          </Button>
-        </ClientOnly>
+        <Text fontSize="xl">
+          {user ? `Welcome, ${user.name} (${user.role})` : "Not Logged In"}
+        </Text>
+        {user && <Button colorPalette="red" onClick={logout}>Logout</Button>}
       </VStack>
     </Box>
   )
