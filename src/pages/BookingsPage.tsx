@@ -14,6 +14,7 @@ import { useAuthStore } from "../store/useAuthStore";
 import { canDeleteBooking } from "../utils/permissions";
 import useBookings from "../hooks/bookings/useBookings";
 import useDeleteBooking from "../hooks/bookings/useDeleteBooking";
+import UpdateBookingModal from "@/components/features/UpdateBookingModal";
 
 const BookingsPage = () => {
   const { user } = useAuthStore();
@@ -55,19 +56,22 @@ const BookingsPage = () => {
                   <Table.Cell>{new Date(booking.endTime).toLocaleString()}</Table.Cell>
                   <Table.Cell textAlign="right">
                     {canDeleteBooking(user, booking) && (
-                      <IconButton
-                        aria-label="Delete booking"
-                        variant="ghost"
-                        colorPalette="red"
-                        loading={isDeleting}
-                        onClick={() => {
-                          if (confirm("Are you sure you want to delete this booking?")) {
-                            deleteBooking(booking.id);
-                          }
-                        }}
-                      >
-                        <Trash2 size={16} />
-                      </IconButton>
+                      <>
+                        <UpdateBookingModal booking={booking} />
+                        <IconButton
+                          aria-label="Delete booking"
+                          variant="ghost"
+                          colorPalette="red"
+                          loading={isDeleting}
+                          onClick={() => {
+                            if (confirm("Are you sure you want to delete this booking?")) {
+                              deleteBooking(booking.id);
+                            }
+                          }}
+                        >
+                          <Trash2 size={16} />
+                        </IconButton>
+                      </>
                     )}
                   </Table.Cell>
                 </Table.Row>

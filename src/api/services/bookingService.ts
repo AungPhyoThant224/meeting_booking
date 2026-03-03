@@ -16,3 +16,8 @@ export const createBookingService = new APIClient<
 >("/bookings");
 
 export const deleteBookingService = new APIClient<Response<any>>("/bookings");
+
+export const updateBookingService = new APIClient<
+  Response<Booking>, 
+  CreateBookingRequest
+>("/bookings");
