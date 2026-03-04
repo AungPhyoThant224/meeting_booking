@@ -15,9 +15,11 @@ const DashboardPage = () => {
     end: getLocalDateRange(endDateStr).end,
   };
 
-  const { data, isLoading } = useSummary(dateRange.start, dateRange.end);
+  const { data, isLoading, error } = useSummary(dateRange.start, dateRange.end);
 
   if (isLoading) return <Center h="400px"><Spinner /></Center>;
+
+  if (error) return <Text color="red.500">Error loading dashboard</Text>;
 
   const chartData = data?.data?.usageSummary.map((item) => ({
     name: item.name,

@@ -1,4 +1,4 @@
-import { Heading, Table, IconButton, HStack, Box, Center, Spinner } from "@chakra-ui/react";
+import { Heading, Table, IconButton, HStack, Box, Center, Spinner, Text } from "@chakra-ui/react";
 import { Trash2 } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 import useUsers from "../hooks/users/useUsers";
@@ -9,11 +9,13 @@ import { NativeSelectField, NativeSelectRoot } from "@/components/ui/native-sele
 
 const UsersPage = () => {
   const { user: currentUser } = useAuthStore();
-  const { data, isLoading } = useUsers(1);
+  const { data, isLoading, error } = useUsers(1);
   const { mutate: updateRole } = useUpdateUser();
   const { mutate: deleteUser } = useDeleteUser();
 
   if (isLoading) return <Center h="200px"><Spinner /></Center>;
+
+  if (error) return <Text color="red.500">Error loading users</Text>;
 
   const handleDelete = (id: string, name: string) => {
     const confirmed = window.confirm(
